@@ -1,4 +1,3 @@
-import Reconciler from "react-reconciler";
 
 const hostConfig = {
     // supportsMutation: true,
@@ -88,9 +87,4 @@ const hostConfig = {
     // getPublicInstance: (instance) => instance,
 };
 
-export const render = (jsx, root) => {
-    const reconciler = Reconciler(hostConfig);
-    const container = reconciler.createContainer(root);
-
-    reconciler.updateContainer(jsx, container, null, () => { });
-};
+export const render = (jsx, root) => { };
