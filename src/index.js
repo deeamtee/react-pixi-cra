@@ -6,11 +6,12 @@ import boy from './resources/boy.png'
 import apple from './resources/apple.png'
 import tree1 from './resources/tree1.png'
 import tree2 from './resources/tree2.png'
-import trava from './resources/trava.png'
+import trava from './resources/trava100.png'
 import arrow from './resources/arrow.png'
 import Stage from './components/Stage';
 import { useTick } from './hooks';
 import { randomInteger } from './helpers';
+import * as PIXI from 'pixi.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<Stage width={800} height={600}><App /></Stage>)
@@ -22,7 +23,7 @@ function App() {
     const [arrowPosition, setArrowPosition] = useState({ x: 0, y: 15 })
     const [applePosition, setApplePosition] = useState({ x: 700, y: 250 })
     const [y, setY] = React.useState(15);
-    const backgroundSize = 100;
+    // const backgroundSize = 100;
 
     const randomForest = useMemo(() => {
         const background = [];
@@ -35,17 +36,17 @@ function App() {
 
     }, [])
 
-    const background = useMemo(() => {
-        const size = backgroundSize;
-        const background = [];
-        for (let i = 0; i < 800 / size; i++) {
-            for (let j = 0; j < 600 / size; j++) {
-                background.push({ x: size * i, y: size * j })
+    // const background = useMemo(() => {
+    //     const size = backgroundSize;
+    //     const background = [];
+    //     for (let i = 0; i < 800 / size; i++) {
+    //         for (let j = 0; j < 600 / size; j++) {
+    //             background.push({ x: size * i, y: size * j })
 
-            }
-        }
-        return background;
-    }, [])
+    //         }
+    //     }
+    //     return background;
+    // }, [])
 
     const arrowTicker = (delta) => {
         setArrowPosition(prev => ({ x: prev.x + 10 * delta, y: prev.y }))
@@ -102,11 +103,12 @@ function App() {
         console.log('handleMouseMove');
         setY(event.data.global.y)
     }, []);
-
+    const texture = new PIXI.Texture.from(trava);
     return <>
-        {background.map(({ x, y }, i) => {
+        <tiling texture={texture} width={800} height={600} />
+        {/* {background.map(({ x, y }, i) => {
             return <Sprite key={i} img={trava} width={backgroundSize} height={backgroundSize} x={x} y={y} />
-        })}
+        })} */}
         {randomForest.map(({ x, y, number }, i) => {
             if (number === 1) { return <Sprite key={i} img={tree1} width={100} height={100} x={x} y={y} /> }
             return <Sprite key={i} img={tree2} width={100} height={100} x={x} y={y} />

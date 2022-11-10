@@ -36,6 +36,13 @@ const hostConfig = {
             return instance;
         }
 
+        if (type === 'tiling') {
+            const { width, height } = props;
+            instance = new PIXI.TilingSprite(props.texture, width, height);
+            console.log(11);
+            return instance;
+        }
+
         if (type === 'text') {
             const { text = '', style, canvas, x = 0, y = 0 } = props;
             instance = new PIXI.Text(text, style, canvas);
