@@ -14,7 +14,7 @@ const hostConfig = {
     createInstance: (type, props) => {
         let instance;
         if (type === 'sprite') {
-            const { x = 0, y = 0, width, height } = props;
+            const { x = 0, y = 0, width, height, anchor } = props;
             instance = new PIXI.Sprite(props.texture);
 
             instance.width = width;
@@ -22,6 +22,7 @@ const hostConfig = {
 
             instance.x = x;
             instance.y = y;
+            instance.anchor.set(anchor);
 
 
             if (props.onClick) {
@@ -33,6 +34,25 @@ const hostConfig = {
                 instance.interactive = true;
                 instance.on('mousemove', props.onMouseMove);
             }
+            return instance;
+        }
+
+        if (type === 'tiling') {
+            instance = new PIXI.TilingSprite(
+                props.texture,
+                props.width,
+                props.height,
+            );
+
+            return instance;
+        }
+        if (type === 'text') {
+            const { x = 0, y = 0, text, style, canvas } = props;
+            instance = new PIXI.Text(text, style, canvas);
+
+            instance.x = x;
+            instance.y = y;
+
             return instance;
         }
     },
@@ -56,6 +76,13 @@ const hostConfig = {
             if (rotation) {
                 instance.rotation = rotation;
             }
+        }
+        if (type === 'text') {
+            const { x = 0, y = 0, text } = updatePayload;
+
+            instance.text = text;
+            instance.x = x;
+            instance.y = y;
         }
 
     },
